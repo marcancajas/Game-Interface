@@ -1,0 +1,46 @@
+/* 
+    Document   : styles.css
+    Created on : 27-Oct-2013, 00:54:33
+    Author     : Marc Ancajas
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#container {
+    top: 47%;
+    left: 50%;
+    width:980px;
+    height:800px;
+    margin-left: -490px; /*set to a negative number 1/2 of your width*/
+    margin-top: -400px; /*set to a negative number 1/2 of your height*/
+    border: 1px solid #ccc;
+    position:fixed;
+    background: #ccc;
+    z-index: 15;
+
+}
+
+#jam-canvas {
+    top: 50%;
+    left: 50%;
+    border: 1px solid #ccc;
+    position:fixed;
+    margin-left: -320px;
+    margin-top: -300px;
+    background: #ffffff;
+    z-index: 17
+}
+
+.fullscreen-button {
+    z-index: 9999;
+    top: 70%;
+    left: 65%;
+    position:fixed;
+}
+
+#controls {
+    margin-top: 650px;
+    padding-left: 5px;
+    z-index: 9999;
+    float:left;
+}

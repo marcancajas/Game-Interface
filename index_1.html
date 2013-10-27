@@ -1,0 +1,130 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="styles.css" media="screen,projection"/>
+        <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
+        
+    <script>    
+        function goFullScreen()
+        {
+        var canvas = document.getElementById("jam-canvas");
+        if(canvas.requestFullScreen)
+        canvas.requestFullScreen();
+        else if(canvas.webkitRequestFullScreen)
+        canvas.webkitRequestFullScreen();
+        else if(canvas.mozRequestFullScreen)
+        canvas.mozRequestFullScreen();
+        }
+    </script>
+        
+        
+  
+    <script type="text/javascript">
+        
+     /*   function init() {
+        var stage = new createjs.Stage("jam-canvas");
+        var circle = new createjs.Shape();
+        circle.graphics.beginFill("red").drawCircle(0, 0, 50);
+        circle.x = 100;
+        circle.y = 100;
+        stage.addChild(circle);
+        stage.update();
+        } */
+        
+    var stage, player, playerImage, _action;
+    var playerWH = 64;
+    var frequency = 4;
+    
+    function init() {
+        playerImage = new Image();
+        playerImage.src = "assets/myheadlessknight.png";
+        playerImage.onload = start;
+    }     
+    
+    function start() {
+    stage = new createjs.Stage("jam-canvas");
+    var playerSprite = new createjs.SpriteSheet({
+        animations:
+        {
+            "left": [10, 21, "left"],
+            "right": [21, 32,"right"],
+            "up": [22, 32, null],
+            "down": [34, 64, null],
+        },
+        images: [playerImage],
+        frames:
+            {
+                height: playerWH,
+                width: playerWH,
+                regX: 0,
+                regY: 0,
+            } 
+            
+    });
+
+player = new createjs.BitmapAnimation(playerSprite);
+player.x = stage.width / 2;
+player.y = stage.height - playerWH;
+player.currentFrame = 2;
+player.gotoAndPlay("left");
+stage.addChild(player);
+createjs.Ticker.setFPS(60);
+createjs.Ticker.addEventListener("tick", tick); 
+
+}
+ 
+function tick() {
+            stage.update();
+        }
+
+        function play(action) {
+            player.gotoAndPlay(action);
+        }
+        
+    </script>
+        
+        
+        
+        
+    </head>
+    
+<body onLoad="init();">
+    <div id="container">
+        
+    <canvas id="jam-canvas" width="640" height="520">
+    Your browser does not support html5 Canvas!
+    </canvas>
+    
+        <br />
+    <!-- float inputs over canvas -->
+    <div id="controls">
+        <button id="btnRestart" onclick="play('left');">Left</button>
+        <button id="btnFall" onclick="play('right');">Right</button>
+        <button id="btnStand" onclick="play('up');">Up</button>
+        <button id="Button1" onclick="play('down');">Down</button>
+        <p><button id="fullscreen-button" onclick=goFullScreen();>Full Screen</button></p>                   
+
+        <script src="quick_example.js"></script>
+        <script>
+        document.write('lerp result: ' + Module.lerp(5, 10, 0.5));
+        </script>
+    </div>
+    
+    </div>
+  
+</html>
+    
+
+
+
+</body>
+    
+
+    
+</html>
