@@ -30,7 +30,7 @@ and open the template in the editor.
       
       
       var stage;
-      var colors = ["Green"]; //Block textures add it here
+      var textures = ["Green"]; //Block textures add it here
       var selected = null;
       var squares = [];
       
@@ -49,11 +49,11 @@ and open the template in the editor.
               {
                   for (var y = 0; y < 10; y++)
                       {
-                          var color = colors[getRandomNumber()];
+                          var texture = textures[getRandomNumber()];
                           var graphic = new createjs.Graphics();
                           graphic.beginStroke(createjs.Graphics.getRGB(0,0,0));
-                          graphic.setStrokeStyle(3);
-                          graphic.beginFill(color);
+                          graphic.setStrokeStyle(1);
+                          graphic.beginFill(texture);
                           graphic.drawRect(0,0,50,50);
                           square = new createjs.Shape(graphic);
                           square.x = x * 50; //Readjust the x position with the size of the next square.
