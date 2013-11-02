@@ -36,7 +36,7 @@ and open the template in the editor.
       
       function getRandomNumber()
       {
-          return Math.floor(Math.random()); //Ratio of the color/texture in the 10x10 Grid
+          return Math.floor(Math.random()); //Randomize the ratio of the color/texture in the 10x10 Grid : multiply by the ratio of the color so : Math.random() * 3 );
       }
       
       /**
@@ -44,6 +44,8 @@ and open the template in the editor.
        */
       function generateWorld()
       {
+
+      /* Generate 10x10 Grid */    
           var square;
           for (var x = 0; x < 10; x++)
               {
@@ -65,6 +67,14 @@ and open the template in the editor.
                           squares[id] = square;
                       }
               }
+              
+      /* Generate circle with initial position x and position y from database */
+      var circle = new createjs.Shape();
+      circle.graphics.beginFill("red").drawCircle(0,0,25);
+      circle.x = 25; // To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
+      circle.y = 25; // To move 1 y block is 50. position y -> same as x but for position y
+      stage.addChild(circle);
+          
               stage.update();
       }
       
@@ -77,6 +87,7 @@ and open the template in the editor.
       /**
        * An event handler for when the user clicks on a square
        */
+      
       
       function squareClick(e)
       {
@@ -115,6 +126,7 @@ and open the template in the editor.
                   
                   selected = null;
               }
+              
               stage.update();
       }
      
