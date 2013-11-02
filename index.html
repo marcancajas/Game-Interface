@@ -73,6 +73,9 @@ and open the template in the editor.
       circle.graphics.beginFill("red").drawCircle(0,0,25);
       circle.x = 25; // To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
       circle.y = 25; // To move 1 y block is 50. position y -> same as x but for position y
+      
+      /* Boundary Handling should be taken care of by the game engine (cpp game). Should passed Null when on edge */
+      
       stage.addChild(circle);
           
               stage.update();
