@@ -30,13 +30,13 @@ and open the template in the editor.
       
       
       var stage;
-      var colors = ["Green","Blue","Grey"];
+      var colors = ["Green"]; //Block textures add it here
       var selected = null;
       var squares = [];
       
       function getRandomNumber()
       {
-          return Math.floor(Math.random() * 3);
+          return Math.floor(Math.random()); //Ratio of the color/texture in the 10x10 Grid
       }
       
       /**
@@ -50,9 +50,12 @@ and open the template in the editor.
                   for (var y = 0; y < 10; y++)
                       {
                           var color = colors[getRandomNumber()];
-                          square = new createjs.Shape();
-                          square.graphics.beginFill(color);
-                          square.graphics.drawRect(0,0,50,50);
+                          var graphic = new createjs.Graphics();
+                          graphic.beginStroke(createjs.Graphics.getRGB(0,0,0));
+                          graphic.setStrokeStyle(3);
+                          graphic.beginFill(color);
+                          graphic.drawRect(0,0,50,50);
+                          square = new createjs.Shape(graphic);
                           square.x = x * 50; //Readjust the x position with the size of the next square.
                           square.y = y * 50; //Readjust the y position with the size of the next square.
                           square.addEventListener("click", squareClick); //User interaction or Input calls to method squareClick()
