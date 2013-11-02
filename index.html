@@ -74,12 +74,46 @@ and open the template in the editor.
       circle.x = 25; // To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
       circle.y = 25; // To move 1 y block is 50. position y -> same as x but for position y
       
-      /* Boundary Handling should be taken care of by the game engine (cpp game). Should passed Null when on edge */
+      /* Boundary Handling should be taken care of by the game engine (cpp game). Should passed Null on edge */
       
       stage.addChild(circle);
           
               stage.update();
       }
+      
+      
+      /* User Control Template */
+      function move(action)
+      {
+          switch(action)
+          {
+              case "left":
+                  alert('Moving Left');
+                  circle.x = x + 50;
+                  //Some additional code here to update database/passed it back to game engine etc.
+                  break;
+              case "right":
+                  alert('Moving Right');
+                  circle.x = x - 50;
+                  //Some additional code here to update database/passed it back to game engine etc.
+                  break;
+              case "up":
+                  alert('Moving Up');
+                  circle.y = y + 50;
+                  //Some additional code here to update database/passed it back to game engine etc.
+                  break;
+              case "down":
+                  alert('Moving Down');
+                  circle.y = y - 50;
+                  //Some additional code here to update database/passed it back to game engine etc.
+                  break;
+              case "null":
+                  alert('You have reached the end of the world, cant move there');
+                  //No updates
+                  break;
+          }
+      }
+     
       
       function removeFromArray(x,y)
       {
@@ -158,10 +192,10 @@ and open the template in the editor.
     <br />
     <!-- float inputs over canvas -->
     <div id="controls" style="z-index:9999;">
-        <button id="btnRestart" onclick="play('left');">Left</button>
-        <button id="btnFall" onclick="play('right');">Right</button>
-        <button id="btnStand" onclick="play('up');">Up</button>
-        <button id="Button1" onclick="play('down');">Down</button>
+        <button id="btnRestart" onclick="move('left');">Left</button>
+        <button id="btnFall" onclick="move('right');">Right</button>
+        <button id="btnStand" onclick="move('up');">Up</button>
+        <button id="Button1" onclick="move('down');">Down</button>
         <p><button id="fullscreen-button" onclick=goFullScreen();>Full Screen</button></p>
         <button id="Start" onclick=startGame();>Start</button><button id="Reset" onclick=reset();>Reset</button>
 
