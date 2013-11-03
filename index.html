@@ -30,6 +30,7 @@ and open the template in the editor.
       var textures = ["Green"]; //Block textures add it here
       var selected = null;
       var squares = [];
+      var circle = new createjs.Shape();
       
       function getRandomNumber()
       {
@@ -58,18 +59,17 @@ and open the template in the editor.
                           square.x = x * 50; //Readjust the x position with the size of the next square.
                           square.y = y * 50; //Readjust the y position with the size of the next square.
                           // square.addEventListener("click", squareClick); //User interaction or Input calls to method squareClick()
-                          stage.addChild(square);
-                          
+                          stage.addChild(square);                        
                           var id = square.x + "_" + square.y;
                           squares[id] = square;
                       }
               }
               
       /* Generate circle with initial position x and position y from database */
-      var circle = new createjs.Shape();
+     
       circle.graphics.beginFill("red").drawCircle(0,0,25);
-      circle.x = 25; // To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
-      circle.y = 25; // To move 1 y block is 50. position y -> same as x but for position y
+      circle.x = 25; // Initial Position | To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
+      circle.y = 25; // Initial Position | To move 1 y block is 50. position y -> same as x but for position y
       
       /* Boundary Handling should be taken care of by the game engine (cpp game). Should passed Null on edge */
       
@@ -86,22 +86,22 @@ and open the template in the editor.
           {
               case "left":
                   alert('Moving Left');
-                  circle.x = x + 50;
+                  circle.x = circle.x - 50;
                   //Some additional code here to update database/passed it back to game engine etc.
                   break;
               case "right":
                   alert('Moving Right');
-                  circle.x = x - 50;
+                  circle.x = circle.x + 50;
                   //Some additional code here to update database/passed it back to game engine etc.
                   break;
               case "up":
                   alert('Moving Up');
-                  circle.y = y + 50;
+                  circle.y = circle.y - 50;
                   //Some additional code here to update database/passed it back to game engine etc.
                   break;
               case "down":
                   alert('Moving Down');
-                  circle.y = y - 50;
+                  circle.y = circle.y + 50;
                   //Some additional code here to update database/passed it back to game engine etc.
                   break;
               case "null":
@@ -109,7 +109,8 @@ and open the template in the editor.
                   //No updates
                   break;
           }
-          stage.update();
+          stage.addChild(circle);
+          stage.update(); 
       }
      
       
@@ -189,7 +190,7 @@ and open the template in the editor.
     
     <br />
     <!-- float inputs over canvas -->
-    <div id="controls" style="z-index:9999;">
+    <div id="controls" style="z-index:17;">
         <button id="btnRestart" onclick="move('left');">Left</button>
         <button id="btnFall" onclick="move('right');">Right</button>
         <button id="btnStand" onclick="move('up');">Up</button>
