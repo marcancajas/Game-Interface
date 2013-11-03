@@ -30,7 +30,7 @@ and open the template in the editor.
       var textures = ["Green"]; //Block textures add it here
       var selected = null;
       var squares = [];
-      var circle = new createjs.Shape();
+      var circle = new createjs.Shape(); // THE HERO HIMSELF
       
       function getRandomNumber()
       {
@@ -65,8 +65,7 @@ and open the template in the editor.
                       }
               }
               
-      /* Generate circle with initial position x and position y from database */
-     
+      /* Generate circle with initial position x and position y from database */   
       circle.graphics.beginFill("red").drawCircle(0,0,25);
       circle.x = 25; // Initial Position | To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
       circle.y = 25; // Initial Position | To move 1 y block is 50. position y -> same as x but for position y
@@ -108,8 +107,7 @@ and open the template in the editor.
                   alert('You have reached the end of the world, cant move there');
                   //No updates
                   break;
-          }
-          stage.addChild(circle);
+          }   
           stage.update(); 
       }
      
