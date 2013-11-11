@@ -1,7 +1,4 @@
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
+<!-- SAMPLE DEMO GAME FOR JAM*/ -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,6 +6,40 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="styles.css" media="screen,projection"/>
         <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+<?php
+$heroid = $_COOKIE["JAMCOOKIE"];
+echo $_COOKIE["JAMCOOKIE"];
+echo $heroid;
+$dbhost = '192.168.42.254:3306';
+$dbuser = 'gameadmin';
+$dbpass = '4dm1n1st3r';
+$database = 'jamaccount';
+
+$link = mysql_pconnect($dbhost,$dbuser,$dbpass);
+if (!$link) {
+    die('Could not connect: ' .mysql_error());
+}
+echo 'Connected successfully';
+mysql_select_db($database,$link) or die (mysql_error());
+
+$query = "SELECT position_x,position_y FROM Modified_Hero WHERE id = '$heroid'";
+$result = mysql_query($query) or die(mysql_error());
+echo $heroid;
+$num = mysql_num_rows($result);
+echo $num;
+
+$row = mysql_fetch_array($result) or die(mysql_error());
+$pos_x = $row[0];
+$pos_y = $row[1];
+
+echo "posx:".$pos_x;
+echo "posy:".$pos_y;
+
+?>          
+           
         
     <script>    
         function goFullScreen()
@@ -58,7 +89,6 @@ and open the template in the editor.
                           square = new createjs.Shape(graphic);
                           square.x = x * 50; //Readjust the x position with the size of the next square.
                           square.y = y * 50; //Readjust the y position with the size of the next square.
-                          // square.addEventListener("click", squareClick); //User interaction or Input calls to method squareClick()
                           stage.addChild(square);                        
                           var id = square.x + "_" + square.y;
                           squares[id] = square;
@@ -67,8 +97,8 @@ and open the template in the editor.
               
       /* Generate circle with initial position x and position y from database */   
       circle.graphics.beginFill("red").drawCircle(0,0,25);
-      circle.x = 25; // Initial Position | To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
-      circle.y = 25; // Initial Position | To move 1 y block is 50. position y -> same as x but for position y
+      circle.x = getPosition_x(); // Initial Position | To move 1 x block is 50. position x -> Grab the current position x from database for every user command then update map
+      circle.y = getPosition_y(); // Initial Position | To move 1 y block is 50. position y -> same as x but for position y
       
       /* Boundary Handling should be taken care of by the game engine (cpp game). Should passed Null on edge */
       
@@ -85,22 +115,24 @@ and open the template in the editor.
           {
               case "left":
                   alert('Moving Left');
-                  circle.x = circle.x - 50;
-                  //Some additional code here to update database/passed it back to game engine etc.
+                  circle.x = circle.x - 50;    
+               
                   break;
               case "right":
-                  alert('Moving Right');
-                  circle.x = circle.x + 50;
-                  //Some additional code here to update database/passed it back to game engine etc.
+                  alert('Moving Right');                
+                  circle.x = circle.x + 50;  
+                  
                   break;
               case "up":
                   alert('Moving Up');
                   circle.y = circle.y - 50;
+               
                   //Some additional code here to update database/passed it back to game engine etc.
                   break;
               case "down":
                   alert('Moving Down');
                   circle.y = circle.y + 50;
+
                   //Some additional code here to update database/passed it back to game engine etc.
                   break;
               case "null":
@@ -108,66 +140,26 @@ and open the template in the editor.
                   //No updates
                   break;
           }   
+         
           stage.update(); 
       }
      
-      
-      function removeFromArray(x,y)
-      {
-          var index = $.inArray(x + "_" + y, squares);
-          squares.splice(index,1);         
-      }
-      
-      /**
-       * An event handler for when the user clicks on a square
-       */
-      
-      
-      function squareClick(e)
-      {
-          if (selected == null) //First click
-              {
-                  selected = 
-                  {
-                    x: e.target.x,
-                    y: e.target.y,        
-                  };
-          
-                  var current = squares[e.target.x + "_" + e.target.y];
-                  current.alpha = 0.5;
-              }
-              else // Second click
-              {
-                  var originalIndex = selected.x + "_" + selected.y;
-                  var original = squares[originalIndex];
-                  removeFromArray(original.x, original.y);
-                    
-                  var currentIndex = e.target.x + "_" + e.target.y;
-                  var current = squares[currentIndex];
-                  removeFromArray(current.x, current.y);
-                  
-                  var tempX = original.x;
-                  var tempY = original.y;
-                  
-                  original.x = current.x;
-                  original.y = current.y;
-                  original.alpha = 1;
-                  squares[currentIndex] = original;
-                  
-                  current.x = tempX;
-                  current.y = tempY;
-                  squares[originalIndex] = current;
-                  
-                  selected = null;
-              }
-              
-              stage.update();
-      }
-     
    
+      function getPosition_x(x)
+      {
+          var dbx = <?php echo $pos_x;?>;
+          return dbx;
+      }
+      
+      
+      function getPosition_y(y)
+      {
+          var dby = <?php echo $pos_y;?>;
+          return dby;
+      }
+
     </script>
-       
-    
+  
     <script> 
         function init()
         {
@@ -176,8 +168,8 @@ and open the template in the editor.
         }
     </script>
     
-    
-        
+
+  
     </head>
     
 <body onload=init();>
@@ -195,22 +187,11 @@ and open the template in the editor.
         <button id="Button1" onclick="move('down');">Down</button>
         <p><button id="fullscreen-button" onclick=goFullScreen();>Full Screen</button></p>
         <button id="Start" onclick=startGame();>Start</button><button id="Reset" onclick=reset();>Reset</button>
-
-        <script src="quick_example.js"></script>
-        <script>
-        document.write('lerp result: ' + Module.lerp(5, 10, 0.5));
-        </script>
     </div>
     
     </div>
-  
-</html>
-    
-
-
 
 </body>
-    
 
-    
+
 </html>
